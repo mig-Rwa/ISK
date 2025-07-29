@@ -15,7 +15,7 @@ const events: SchoolEvent[] = [
   { date: '2025-01-29', title: 'Break Evening' },
 ];
 
-type CalendarValue = Date | Date[] | null;
+type CalendarValue = Date | [Date, Date];
 
 export default function AcademicCalendarSection() {
   // Using react-calendar's provided Value union type
@@ -24,7 +24,7 @@ export default function AcademicCalendarSection() {
   // react-calendar passes (value, event). Provide a wrapper so the types line up.
   const handleChange = (
     val: CalendarValue,
-    _event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    _event: unknown
   ): void => {
     // we ignore the second argument but keep it for correct typing
     setValue(val);
@@ -32,7 +32,6 @@ export default function AcademicCalendarSection() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const selectedEvents = events.filter((e) => {
-    if (!value) return false;
     const dates = Array.isArray(value) ? value : [value];
     return dates.some((d) => d && e.date === d.toISOString().split('T')[0]);
   });
