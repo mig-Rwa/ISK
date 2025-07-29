@@ -10,7 +10,7 @@ interface Event {
   description?: string;
 }
 
-// Example static events — replace with real dynamic data if needed
+// Example static events — replace with dynamic ones if needed
 const events: Event[] = [
   { date: "2025-07-29", title: "Fitness Orientation", description: "Intro session for new students" },
   { date: "2025-08-01", title: "Yoga Class" },
@@ -19,8 +19,8 @@ const events: Event[] = [
 export default function AcademicCalendarSection() {
   const [value, setValue] = useState<Date | Date[]>(new Date());
 
-  // ✅ Fixed typing to match react-calendar's onChange signature
-  const handleChange = (val: Date | Date[], _event: React.SyntheticEvent<any>) => {
+  // ✅ Removed `_event` to fix ESLint rule: no-explicit-any
+  const handleChange = (val: Date | Date[]) => {
     setValue(val);
   };
 
@@ -32,7 +32,8 @@ export default function AcademicCalendarSection() {
           <Calendar
             onChange={handleChange}
             value={value}
-            tileClassName={({ date, view }) => {
+            // ✅ Removed `view` to silence unused-var warning
+            tileClassName={({ date }) => {
               const dateStr = date.toISOString().split("T")[0];
               const match = events.find((e) => e.date === dateStr);
               return match ? "bg-red-500 text-white font-bold rounded-sm" : null;
