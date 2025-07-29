@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Calendar, { Value } from "react-calendar";
+import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface Event {
@@ -15,14 +15,14 @@ const events: Event[] = [
   { date: "2025-08-01", title: "Yoga Class" },
 ];
 
-export default function AcademicCalendarSection() {
-  const [value, setValue] = useState<Value>(new Date());
+/* correct value type */
+type CalendarValue = CalendarProps["value"];
 
-  // Use the exact types from react-calendar
-  const handleChange = (
-    nextValue: Value,
-    _event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+export default function AcademicCalendarSection() {
+  const [value, setValue] = useState<CalendarValue>(new Date());
+
+  /* exact onChange signature */
+  const handleChange: CalendarProps["onChange"] = (nextValue) => {
     setValue(nextValue);
   };
 
@@ -34,12 +34,11 @@ export default function AcademicCalendarSection() {
           <Calendar
             onChange={handleChange}
             value={value}
-            tileClassName={({ date }) => {
-              const dateStr = date.toISOString().split("T")[0];
-              return events.some(e => e.date === dateStr)
+            tileClassName={({ date }) =>
+              events.some(e => e.date === date.toISOString().split("T")[0])
                 ? "bg-red-500 text-white font-bold rounded-sm"
-                : "";
-            }}
+                : ""
+            }
             next2Label={null}
             prev2Label={null}
           />
@@ -65,7 +64,9 @@ export default function AcademicCalendarSection() {
                   {new Date(e.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                   {e.description ? " – " : ""}{e.title}
                 </p>
-                {e.description && <p className="text-gray-600 text-sm">{e.description}</p>}
+                {e.description && (
+                  <p className="text-gray-600 text-sm">{e.description}</p>
+                )}
               </li>
             ))}
           </ul>
