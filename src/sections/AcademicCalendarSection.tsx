@@ -19,6 +19,11 @@ export default function AcademicCalendarSection() {
   // `react-calendar` passes `null` when the user clears selection, so include it in the type
   const [value, setValue] = useState<Date | Date[] | null>(new Date());
 
+  // react-calendar passes (value, event). Provide a wrapper so the types line up.
+  const handleChange = (val: Date | Date[] | null): void => {
+    setValue(val);
+  };
+
   const selectedEvents = events.filter((e) => {
     if (!value) return false;
     const dates = Array.isArray(value) ? value : [value];
@@ -39,7 +44,7 @@ export default function AcademicCalendarSection() {
         {/* Calendar */}
         <div className="w-full lg:max-w-md mx-auto shadow-lg rounded border p-4">
           <Calendar
-            onChange={setValue}
+            onChange={handleChange}
             value={value}
             tileClassName={({ date, view }) => {
               if (
