@@ -24,7 +24,7 @@ export default function ThemeRegistry({ children }: Props) {
   useServerInsertedHTML(() => {
     const { key, inserted } = emotionCache;
     let styles = '';
-    let ids: string[] = [];
+    const ids: string[] = [];
 
     Object.entries(inserted).forEach(([id, css]) => {
       if (typeof css === 'boolean') return; // skip registered ids

@@ -20,7 +20,7 @@ export default function AccreditationSection() {
       <div className="overflow-hidden flex justify-center">
         <div
           className="inline-flex gap-24 animate-scroll-left"
-          // @ts-ignore – Tailwind keyframes added globally
+          // @ts-expect-error – Tailwind keyframes added globally
         >
           {scrollingList.map((p, idx) => (
             <div key={idx} className="w-40 h-16 relative flex-shrink-0">

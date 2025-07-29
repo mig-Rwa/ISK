@@ -20,7 +20,6 @@ import SchoolIcon from '@mui/icons-material/School';
 import PeopleIcon from '@mui/icons-material/People';
 import Person2Icon from '@mui/icons-material/Person2';
 import Popover from '@mui/material/Popover';
-import Grid from '@mui/material/Grid';
 import SidebarPopup from '@/components/SidebarPopup';
 import { Menu as SideIcon } from '@mui/icons-material';
 // swap in your own SVG or image
@@ -81,8 +80,9 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const theme = useTheme();
-  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
+  const isMdUp = useMediaQuery((theme: import('@mui/material/styles').Theme) =>
+    theme.breakpoints.up('md')
+  );
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
