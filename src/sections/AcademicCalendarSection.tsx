@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import Calendar, { type Value } from 'react-calendar';
+import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 interface SchoolEvent {
@@ -15,12 +15,14 @@ const events: SchoolEvent[] = [
   { date: '2025-01-29', title: 'Break Evening' },
 ];
 
+type CalendarValue = Date | Date[] | null;
+
 export default function AcademicCalendarSection() {
   // Using react-calendar's provided Value union type
-  const [value, setValue] = useState<Value>(new Date());
+  const [value, setValue] = useState<CalendarValue>(new Date());
 
   // react-calendar passes (value, event). Provide a wrapper so the types line up.
-  const handleChange = (val: Value): void => {
+  const handleChange = (val: CalendarValue): void => {
     setValue(val);
   };
 
