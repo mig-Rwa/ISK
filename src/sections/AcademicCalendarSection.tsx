@@ -10,18 +10,24 @@ interface Event {
   description?: string;
 }
 
-// Example static events — replace with dynamic ones if needed
+// Static sample events (replace with dynamic data as needed)
 const events: Event[] = [
-  { date: "2025-07-29", title: "Fitness Orientation", description: "Intro session for new students" },
+  {
+    date: "2025-07-29",
+    title: "Fitness Orientation",
+    description: "Intro session for new students",
+  },
   { date: "2025-08-01", title: "Yoga Class" },
 ];
 
 export default function AcademicCalendarSection() {
   const [value, setValue] = useState<Date | Date[]>(new Date());
 
-  // ✅ Removed `_event` to fix ESLint rule: no-explicit-any
-  const handleChange = (val: Date | Date[]) => {
-    setValue(val);
+  const handleChange = (
+    value: Date | Date[],
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    setValue(value);
   };
 
   return (
@@ -32,7 +38,6 @@ export default function AcademicCalendarSection() {
           <Calendar
             onChange={handleChange}
             value={value}
-            // ✅ Removed `view` to silence unused-var warning
             tileClassName={({ date }) => {
               const dateStr = date.toISOString().split("T")[0];
               const match = events.find((e) => e.date === dateStr);
@@ -64,10 +69,11 @@ export default function AcademicCalendarSection() {
                     month: "short",
                     day: "numeric",
                   })}
-                  {e.description ? " – " : ""}
-                  {e.title}
+                  {e.description ? " – " : ""} {e.title}
                 </p>
-                {e.description && <p className="text-gray-600 text-sm">{e.description}</p>}
+                {e.description && (
+                  <p className="text-gray-600 text-sm">{e.description}</p>
+                )}
               </li>
             ))}
           </ul>
