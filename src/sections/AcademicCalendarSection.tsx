@@ -22,7 +22,11 @@ export default function AcademicCalendarSection() {
   const [value, setValue] = useState<CalendarValue>(new Date());
 
   // react-calendar passes (value, event). Provide a wrapper so the types line up.
-  const handleChange = (val: CalendarValue): void => {
+  const handleChange = (
+    val: CalendarValue,
+    _event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
+    // we ignore the second argument but keep it for correct typing
     setValue(val);
   };
 
