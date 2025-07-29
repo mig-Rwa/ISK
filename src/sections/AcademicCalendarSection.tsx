@@ -16,13 +16,14 @@ const events: SchoolEvent[] = [
 ];
 
 export default function AcademicCalendarSection() {
-  const [value, setValue] = useState<Date | Date[]>(new Date());
+  // `react-calendar` passes `null` when the user clears selection, so include it in the type
+  const [value, setValue] = useState<Date | Date[] | null>(new Date());
 
-  const selectedEvents = events.filter((e) =>
-    (Array.isArray(value) ? value : [value]).some(
-      (d) => e.date === d.toISOString().split('T')[0]
-    )
-  );
+  const selectedEvents = events.filter((e) => {
+    if (!value) return false;
+    const dates = Array.isArray(value) ? value : [value];
+    return dates.some((d) => e.date === d.toISOString().split('T')[0]);
+  });
 
   return (
     <section className="py-24">
