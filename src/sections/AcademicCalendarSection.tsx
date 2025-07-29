@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Calendar, { CalendarValue } from "react-calendar"; // Make sure this matches your calendar lib
+import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface Event {
@@ -10,15 +10,17 @@ interface Event {
   description?: string;
 }
 
+// Example static events — replace with real data
 const events: Event[] = [
   { date: "2025-07-29", title: "Fitness Orientation", description: "Intro session for new students" },
   { date: "2025-08-01", title: "Yoga Class" },
 ];
 
 export default function AcademicCalendarSection() {
-  const [value, setValue] = useState<CalendarValue>(new Date());
+  // Just type the state as Date or Date[] | null
+  const [value, setValue] = useState<Date | Date[] | null>(new Date());
 
-  const handleChange = (val: CalendarValue) => {
+  const handleChange = (val: Date | Date[]) => {
     setValue(val);
   };
 
