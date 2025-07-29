@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import Calendar from 'react-calendar';
+import Calendar, { type Value } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 interface SchoolEvent {
@@ -16,18 +16,19 @@ const events: SchoolEvent[] = [
 ];
 
 export default function AcademicCalendarSection() {
-  // `react-calendar` passes `null` when the user clears selection, so include it in the type
-  const [value, setValue] = useState<Date | Date[] | null>(new Date());
+  // Using react-calendar's provided Value union type
+  const [value, setValue] = useState<Value>(new Date());
 
   // react-calendar passes (value, event). Provide a wrapper so the types line up.
-  const handleChange = (val: Date | Date[] | null): void => {
+  const handleChange = (val: Value): void => {
     setValue(val);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const selectedEvents = events.filter((e) => {
     if (!value) return false;
     const dates = Array.isArray(value) ? value : [value];
-    return dates.some((d) => e.date === d.toISOString().split('T')[0]);
+    return dates.some((d) => d && e.date === d.toISOString().split('T')[0]);
   });
 
   return (
