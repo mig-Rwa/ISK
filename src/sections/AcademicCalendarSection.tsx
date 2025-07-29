@@ -10,17 +10,17 @@ interface Event {
   description?: string;
 }
 
-// Example static events — replace with real data
+// Example static events — replace with real dynamic data if needed
 const events: Event[] = [
   { date: "2025-07-29", title: "Fitness Orientation", description: "Intro session for new students" },
   { date: "2025-08-01", title: "Yoga Class" },
 ];
 
 export default function AcademicCalendarSection() {
-  // Just type the state as Date or Date[] | null
-  const [value, setValue] = useState<Date | Date[] | null>(new Date());
+  const [value, setValue] = useState<Date | Date[]>(new Date());
 
-  const handleChange = (val: Date | Date[]) => {
+  // ✅ Fixed typing to match react-calendar's onChange signature
+  const handleChange = (val: Date | Date[], _event: React.SyntheticEvent<any>) => {
     setValue(val);
   };
 
