@@ -21,13 +21,10 @@ const events: Event[] = [
 ];
 
 export default function AcademicCalendarSection() {
-  const [value, setValue] = useState<Date | Date[]>(new Date());
+  const [value, setValue] = useState<Date | Date[] | null>(new Date());
 
-  const handleChange = (
-    value: Date | Date[],
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    setValue(value);
+  const handleChange = (val: Date | Date[] | null) => {
+    setValue(val);
   };
 
   return (
@@ -37,11 +34,11 @@ export default function AcademicCalendarSection() {
         <div className="w-full lg:max-w-md mx-auto shadow-lg rounded border p-4">
           <Calendar
             onChange={handleChange}
-            value={value}
+            value={value ?? new Date()}
             tileClassName={({ date }) => {
               const dateStr = date.toISOString().split("T")[0];
               const match = events.find((e) => e.date === dateStr);
-              return match ? "bg-red-500 text-white font-bold rounded-sm" : null;
+              return match ? "bg-red-500 text-white font-bold rounded-sm" : "";
             }}
             next2Label={null}
             prev2Label={null}
@@ -62,7 +59,7 @@ export default function AcademicCalendarSection() {
           <h3 className="text-2xl font-semibold text-blue-900 mb-6">Free Sessions</h3>
           <ul className="space-y-4 border-l-2 border-gray-200 pl-6">
             {events.map((e) => (
-              <li key={e.date} className="relative">
+              <li key={`${e.date}-${e.title}`} className="relative">
                 <span className="absolute -left-3 top-1.5 w-3 h-3 bg-red-500 rounded-full" />
                 <p className="font-semibold text-blue-900">
                   {new Date(e.date).toLocaleDateString("en-US", {
