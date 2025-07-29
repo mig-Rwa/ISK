@@ -40,21 +40,21 @@ const items: QuickItem[] = [
     labelTop: 'STUDENT',
     labelBottom: 'SUPPORT',
     href: '/support',
-    img: '/image/student_support.jpg',
+    img: '/image/student_support.JPG',
     color: 'bg-indigo-500/70',
   },
   {
     labelTop: 'FINANCIAL',
     labelBottom: 'AID',
     href: '/financial-aid',
-    img: '/image/financial_aid.jpg',
+    img: '/image/financial_aid.JPG',
     color: 'bg-teal-500/70',
   },
   {
     labelTop: 'CALENDAR',
     labelBottom: '',
     href: '/calendar',
-    img: '/image/calender.jpg',
+    img: '/image/calender.JPG',
     color: 'bg-lime-500/70',
   },
 ];
@@ -66,7 +66,7 @@ export default function QuickStarts() {
   const CARD_WIDTH = 340 + 32; // slightly wider spacing for easier hover
 
   return (
-    <section className="py-8">
+    <section className="py-8 overflow-x-hidden">
       {/* Mobile: simple grid */}
       <div className="grid sm:hidden grid-cols-1 gap-6 max-w-6xl mx-auto px-4">
         {items.map((item) => (
