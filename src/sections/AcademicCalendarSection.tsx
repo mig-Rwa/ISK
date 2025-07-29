@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Calendar from "react-calendar";
+import Calendar, { Value } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface Event {
@@ -10,21 +10,20 @@ interface Event {
   description?: string;
 }
 
-// Static sample events (replace with dynamic data as needed)
 const events: Event[] = [
-  {
-    date: "2025-07-29",
-    title: "Fitness Orientation",
-    description: "Intro session for new students",
-  },
+  { date: "2025-07-29", title: "Fitness Orientation", description: "Intro session for new students" },
   { date: "2025-08-01", title: "Yoga Class" },
 ];
 
 export default function AcademicCalendarSection() {
-  const [value, setValue] = useState<Date | Date[] | null>(new Date());
+  const [value, setValue] = useState<Value>(new Date());
 
-  const handleChange = (val: Date | Date[] | null) => {
-    setValue(val);
+  // Use the exact types from react-calendar
+  const handleChange = (
+    nextValue: Value,
+    _event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setValue(nextValue);
   };
 
   return (
@@ -34,11 +33,12 @@ export default function AcademicCalendarSection() {
         <div className="w-full lg:max-w-md mx-auto shadow-lg rounded border p-4">
           <Calendar
             onChange={handleChange}
-            value={value ?? new Date()}
+            value={value}
             tileClassName={({ date }) => {
               const dateStr = date.toISOString().split("T")[0];
-              const match = events.find((e) => e.date === dateStr);
-              return match ? "bg-red-500 text-white font-bold rounded-sm" : "";
+              return events.some(e => e.date === dateStr)
+                ? "bg-red-500 text-white font-bold rounded-sm"
+                : "";
             }}
             next2Label={null}
             prev2Label={null}
@@ -58,19 +58,14 @@ export default function AcademicCalendarSection() {
         <div className="w-full">
           <h3 className="text-2xl font-semibold text-blue-900 mb-6">Free Sessions</h3>
           <ul className="space-y-4 border-l-2 border-gray-200 pl-6">
-            {events.map((e) => (
+            {events.map(e => (
               <li key={`${e.date}-${e.title}`} className="relative">
                 <span className="absolute -left-3 top-1.5 w-3 h-3 bg-red-500 rounded-full" />
                 <p className="font-semibold text-blue-900">
-                  {new Date(e.date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}
-                  {e.description ? " – " : ""} {e.title}
+                  {new Date(e.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  {e.description ? " – " : ""}{e.title}
                 </p>
-                {e.description && (
-                  <p className="text-gray-600 text-sm">{e.description}</p>
-                )}
+                {e.description && <p className="text-gray-600 text-sm">{e.description}</p>}
               </li>
             ))}
           </ul>
